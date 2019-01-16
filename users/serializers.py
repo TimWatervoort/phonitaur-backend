@@ -23,7 +23,7 @@ class UserSerializer(serializers.ModelSerializer):
 class LessonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson
-        fields=('id', 'name', 'language', 'icon')
+        fields=('id', 'name', 'language', 'icon', 'level')
 
     def create(self, validated_data):
         return Lesson.Objects.create(validated_data)

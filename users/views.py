@@ -29,6 +29,16 @@ def languages(request):
         serializer = LanguageSerializer(languageList, many=True)
         return JsonResponse(serializer.data, safe=False)
 
+def oneAlphabet(request, pk):
+    try:
+        language = Language.objects.get(pk=pk)
+    except Language.DoesNotExist:
+        return HttpResponse(status=404)
+
+    if request.method == 'GET':
+        serializer = LanguageSerializer(language)
+        return JsonResponse(serializer.data)
+
 def lessons(request, lang_id):
     if request.method == 'GET':
         lessonList = Lesson.objects.filter(language = lang_id)

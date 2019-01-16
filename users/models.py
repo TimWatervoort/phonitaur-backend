@@ -23,6 +23,7 @@ class Lesson(models.Model):
     name = models.CharField(max_length = 50)
     language = models.IntegerField()
     icon = models.CharField(max_length = 255, blank=True, null=True)
+    level = models.IntegerField(default=1)
 
     def __str__(self):
         return self.name
