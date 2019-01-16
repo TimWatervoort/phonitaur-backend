@@ -22,3 +22,9 @@ def oneUser(request, pk):
     if request.method == 'GET':
         serializer = UserSerializer(user)
         return JsonResponse(serializer.data)
+
+def languages(request):
+    if request.method == 'GET':
+        languages = Language.objects.all()
+        serializer = LanguageSerializer(languages, many=True)
+        return JsonResponse(serializer.data, safe=False)

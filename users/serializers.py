@@ -4,7 +4,7 @@ from .models import User, Language
 class LanguageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Language
-        fields=('id', 'name', 'img')
+        fields=('id', 'name', 'img', 'text_color')
 
     def create(self, validated_data):
         return Language.objects.create(validated_data)
