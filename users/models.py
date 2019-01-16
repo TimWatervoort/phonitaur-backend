@@ -18,3 +18,11 @@ class User(models.Model):
 
     def __str__(self):
         return self.username
+
+class Lesson(models.Model):
+    name = models.CharField(max_length = 50)
+    language = models.IntegerField()
+    icon = models.CharField(max_length = 255, blank=True, null=True)
+
+    def __str__(self):
+        return self.name

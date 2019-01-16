@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Language
+from .models import User, Language, Lesson
 
 class LanguageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -19,3 +19,11 @@ class UserSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return User.Objects.create(validated_data)
+
+class LessonSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Lesson
+        fields=('id', 'name', 'language', 'icon')
+
+    def create(self, validated_data):
+        return Lesson.Objects.create(validated_data)

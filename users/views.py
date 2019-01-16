@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
-from .models import User, Language
-from .serializers import UserSerializer, LanguageSerializer
+from .models import User, Language, Lesson
+from .serializers import UserSerializer, LanguageSerializer, LessonSerializer
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
@@ -25,6 +25,12 @@ def oneUser(request, pk):
 
 def languages(request):
     if request.method == 'GET':
-        languages = Language.objects.all()
-        serializer = LanguageSerializer(languages, many=True)
+        languageList = Language.objects.all()
+        serializer = LanguageSerializer(languageList, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
+def lessons(request, lang_id):
+    if request.method == 'GET':
+        lessonList = Lesson.objects.filter(language = lang_id)
+        serializer = LessonSerializer(lessonList, many=True)
         return JsonResponse(serializer.data, safe=False)
