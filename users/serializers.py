@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Language, Lesson, Question
+from .models import PhonitaurUser, Language, Lesson, Question
 
 class LanguageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -9,21 +9,28 @@ class LanguageSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         return Language.objects.create(validated_data)
 
-class UserSerializer(serializers.ModelSerializer):
+class PhonitaurUserSerializer(serializers.ModelSerializer):
 
     languages=LanguageSerializer(many=True, required=False, read_only=False)
 
     class Meta:
-        model = User
+        model = PhonitaurUser
         fields=('id', 'username', 'password', 'email', 'mother_alphabet', 'img', 'languages')
+        extra_kwargs = {
+            'password': {'write_only': True},
+            'email': {'write_only': True},
+            'img': {'required': False}
+        }
+
 
     def create(self, validated_data):
-        instance = User.objects.create(
+        instance = PhonitaurUser.objects.create(
             username=validated_data['username'],
             password=validated_data['password'],
             email=validated_data['email'],
             mother_alphabet=validated_data['mother_alphabet']
         )
+        instance.set_password(validated_data['password'].strip())
         instance.save()
         return instance
 

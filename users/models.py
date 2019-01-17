@@ -1,4 +1,6 @@
+from django.conf import settings
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
 class Language(models.Model):
     name = models.CharField(max_length = 50)
@@ -8,10 +10,7 @@ class Language(models.Model):
     def __str__(self):
         return self.name
 
-class User(models.Model):
-    username = models.CharField(max_length = 30)
-    password = models.CharField(max_length = 255)
-    email = models.CharField(max_length = 100)
+class PhonitaurUser(AbstractUser):
     mother_alphabet = models.CharField(max_length = 20)
     img = models.CharField(max_length = 255, default=None, blank=True, null=True)
     languages = models.ManyToManyField(Language)

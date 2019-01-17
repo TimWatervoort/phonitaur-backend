@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
-from .models import User, Language, Lesson, Question
-from .serializers import UserSerializer, LanguageSerializer, LessonSerializer, QuestionSerializer
+from .models import PhonitaurUser, Language, Lesson, Question
+from .serializers import PhonitaurUserSerializer, LanguageSerializer, LessonSerializer, QuestionSerializer
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
@@ -14,14 +14,14 @@ import json
 @api_view(['GET', 'POST'])
 def index(request, format=None):
     if request.method == 'GET':
-        users = User.objects.all()
-        serializer = UserSerializer(users, many=True)
+        users = PhonitaurUser.objects.all()
+        serializer = PhonitaurUserSerializer(users, many=True)
         return JsonResponse(serializer.data, safe=False)
 
     elif request.method == 'POST':
         newBody = request.body.decode('utf-8')
         jsonBody = json.loads(newBody)
-        serializer = UserSerializer(data=jsonBody)
+        serializer = PhonitaurUserSerializer(data=jsonBody)
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
@@ -29,12 +29,12 @@ def index(request, format=None):
 
 def oneUser(request, pk):
     try:
-        user = User.objects.get(pk=pk)
-    except User.DoesNotExist:
+        user = PhonitaurUser.objects.get(pk=pk)
+    except PhonitaurUser.DoesNotExist:
         return HttpResponse(status=404)
 
     if request.method == 'GET':
-        serializer = UserSerializer(user)
+        serializer = PhonitaurUserSerializer(user)
         return JsonResponse(serializer.data)
 
 def languages(request):
