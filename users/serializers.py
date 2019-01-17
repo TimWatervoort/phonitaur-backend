@@ -18,7 +18,14 @@ class UserSerializer(serializers.ModelSerializer):
         fields=('id', 'username', 'password', 'email', 'mother_alphabet', 'img', 'languages')
 
     def create(self, validated_data):
-        return User.Objects.create(validated_data)
+        instance = User.objects.create(
+            username=validated_data['username'],
+            password=validated_data['password'],
+            email=validated_data['email'],
+            mother_alphabet=validated_data['mother_alphabet']
+        )
+        instance.save()
+        return instance
 
 class LessonSerializer(serializers.ModelSerializer):
     class Meta:
@@ -26,7 +33,7 @@ class LessonSerializer(serializers.ModelSerializer):
         fields=('id', 'name', 'language', 'icon', 'level')
 
     def create(self, validated_data):
-        return Lesson.Objects.create(validated_data)
+        return Lesson.objects.create(validated_data)
 
 class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
@@ -34,4 +41,4 @@ class QuestionSerializer(serializers.ModelSerializer):
         fields=('id', 'question_text', 'lesson', 'answer')
 
     def create(self, validated_data):
-        return Question.Objects.create(validated_data)
+        return Question.objects.create(validated_data)

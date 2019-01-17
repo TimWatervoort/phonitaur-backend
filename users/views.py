@@ -6,12 +6,26 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.decorators import parser_classes
+import json
 
-def index(request):
+@api_view(['GET', 'POST'])
+def index(request, format=None):
     if request.method == 'GET':
         users = User.objects.all()
         serializer = UserSerializer(users, many=True)
         return JsonResponse(serializer.data, safe=False)
+
+    elif request.method == 'POST':
+        newBody = request.body.decode('utf-8')
+        jsonBody = json.loads(newBody)
+        serializer = UserSerializer(data=jsonBody)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
+        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 def oneUser(request, pk):
     try:
