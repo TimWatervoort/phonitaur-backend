@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import PhonitaurUser, Language, Lesson, Question
+import json
 
 class LanguageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -31,6 +32,26 @@ class PhonitaurUserSerializer(serializers.ModelSerializer):
             mother_alphabet=validated_data['mother_alphabet']
         )
         instance.set_password(validated_data['password'].strip())
+        instance.save()
+        return instance
+
+    def update(self, instance, validated_data):
+
+        if 'languages' in validated_data:
+            languages = []
+            for i in validated_data['languages']:
+                newi = json.loads(json.dumps(i))
+                lang = Language.objects.get(name = newi['name'])
+                languages = languages + [lang]
+
+        if 'img' in validated_data:
+            instance.img = validated_data['img']
+
+        instance.languages.set(languages)
+        instance.username = validated_data.get('username', instance.username)
+        instance.email = validated_data.get('email', instance.email)
+        instance.mother_alphabet = validated_data.get('mother_alphabet', instance.mother_alphabet)
+        instance.password = validated_data.get('password', instance.password)
         instance.save()
         return instance
 
