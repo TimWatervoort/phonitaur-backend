@@ -18,19 +18,20 @@ class PhonitaurUser(AbstractUser):
     def __str__(self):
         return self.username
 
-class Lesson(models.Model):
-    name = models.CharField(max_length = 50)
-    language = models.IntegerField()
-    icon = models.CharField(max_length = 255, blank=True, null=True)
-    level = models.IntegerField(default=1)
-
-    def __str__(self):
-        return self.name
-
 class Question(models.Model):
     question_text = models.CharField(max_length = 100)
-    lesson = models.IntegerField()
     answer = models.CharField(max_length = 255)
 
     def __str__(self):
         return self.question_text
+
+class Lesson(models.Model):
+    name = models.CharField(max_length = 50)
+    language = models.CharField(max_length=50)
+    icon = models.CharField(max_length = 255, blank=True, null=True)
+    level = models.IntegerField(default=1)
+    lesson_text = models.TextField(default="")
+    questions = models.ManyToManyField(Question)
+
+    def __str__(self):
+        return self.name

@@ -55,18 +55,21 @@ class PhonitaurUserSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
-class LessonSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Lesson
-        fields=('id', 'name', 'language', 'icon', 'level')
-
-    def create(self, validated_data):
-        return Lesson.objects.create(validated_data)
-
 class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
-        fields=('id', 'question_text', 'lesson', 'answer')
+        fields=('id', 'question_text', 'answer')
 
     def create(self, validated_data):
         return Question.objects.create(validated_data)
+
+class LessonSerializer(serializers.ModelSerializer):
+
+    questions=QuestionSerializer(many=True, required=False, read_only=False)
+
+    class Meta:
+        model = Lesson
+        fields=('id', 'name', 'language', 'lesson_text', 'icon', 'level', 'questions')
+
+    def create(self, validated_data):
+        return Lesson.objects.create(validated_data)
