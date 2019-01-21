@@ -83,6 +83,6 @@ def lessons(request, lang):
 
 def lesson(request, lesson_id):
     if request.method == 'GET':
-        questionList = Question.objects.filter(lesson = lesson_id)
-        serializer = QuestionSerializer(questionList, many=True)
+        lesson = Lesson.objects.filter(id = lesson_id)
+        serializer = LessonSerializer(lesson, many=True)
         return JsonResponse(serializer.data, safe=False)
