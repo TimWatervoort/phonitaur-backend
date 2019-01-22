@@ -26,7 +26,7 @@ SECRET_KEY = '*=6y*f+t81-c&2diya7u61_nm&c1vnpldl1a7rf=9z71%aj70p'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://phonitaur-backend.herokuapp.com']
+ALLOWED_HOSTS = ['phonitaur-backend.herokuapp.com']
 
 # Application definition
 
