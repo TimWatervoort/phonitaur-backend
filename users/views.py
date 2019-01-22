@@ -13,67 +13,30 @@ import json
 from rest_framework import generics, permissions
 from django.core.exceptions import ObjectDoesNotExist
 
-# @api_view(['GET', 'POST'])
-# def index(request, format=None):
-#     if request.method == 'GET':
-#         users = PhonitaurUser.objects.all()
-#         serializer = PhonitaurUserSerializer(users, many=True)
-#         return JsonResponse(serializer.data, safe=False)
-#
-#     elif request.method == 'POST':
-#         newBody = request.body.decode('utf-8')
-#         jsonBody = json.loads(newBody)
-#         serializer = PhonitaurUserSerializer(data=jsonBody)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
-#         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-class index(generics.ListCreateAPIView):
+class users(generics.ListCreateAPIView):
     queryset = PhonitaurUser.objects.all()
     serializer_class = PhonitaurUserSerializer
     permission_classes = ()
-
-# @api_view(['GET', 'PUT'])
-# def oneUser(request, pk):
-#     try:
-#         user = PhonitaurUser.objects.get(pk=pk)
-#     except PhonitaurUser.DoesNotExist:
-#         return HttpResponse(status=404)
-#
-#     if request.method == 'GET':
-#         serializer = PhonitaurUserSerializer(user)
-#         return JsonResponse(serializer.data)
-#
-#     elif request.method == 'PUT':
-#         newBody = request.body.decode('utf-8')
-#         jsonBody = json.loads(newBody)
-#         serializer = PhonitaurUserSerializer(data=jsonBody)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
-#         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class oneUser(generics.RetrieveUpdateDestroyAPIView):
     queryset = PhonitaurUser.objects.all()
     serializer_class = PhonitaurUserSerializer
     permission_classes = ()
 
-def languages(request):
-    if request.method == 'GET':
-        languageList = Language.objects.all()
-        serializer = LanguageSerializer(languageList, many=True)
-        return JsonResponse(serializer.data, safe=False)
+class languages(generics.ListCreateAPIView):
+    queryset = Language.objects.all()
+    serializer_class = LanguageSerializer
+    permission_classes = ()
 
-def oneAlphabet(request, lang):
-    try:
-        language = Language.objects.get(name=lang)
-    except Language.DoesNotExist:
-        return HttpResponse(status=404)
+class oneLanguage(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Language.objects.all()
+    serializer_class = LanguageSerializer
+    permission_classes = ()
 
-    if request.method == 'GET':
-        serializer = LanguageSerializer(language)
-        return JsonResponse(serializer.data)
+class questions(generics.ListCreateAPIView):
+    queryset = Question.objects.all()
+    serializer_class = QuestionSerializer
+    permission_classes = ()
 
 def lessons(request, lang):
     if request.method == 'GET':

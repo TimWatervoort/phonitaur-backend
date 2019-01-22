@@ -58,10 +58,23 @@ class PhonitaurUserSerializer(serializers.ModelSerializer):
 class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
-        fields=('id', 'question_text', 'answer')
+        fields=('id', 'name', 'question_text', 'answer')
 
     def create(self, validated_data):
-        return Question.objects.create(validated_data)
+        instance = Lesson.objects.create(
+            name=validated_data['name'],
+            question_text=validated_data['question_text'],
+            answer=validated_data['answer'],
+        )
+        instance.save()
+        return instance
+
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get('name', instance.name)
+        instance.question_text = validated_data.get('question_text', instance.question_text)
+        instance.answer = validated_data.get('answer', instance.answer)
+        instance.save()
+        return instance
 
 class LessonSerializer(serializers.ModelSerializer):
 
@@ -72,4 +85,31 @@ class LessonSerializer(serializers.ModelSerializer):
         fields=('id', 'name', 'language', 'lesson_text', 'icon', 'level', 'questions')
 
     def create(self, validated_data):
-        return Lesson.objects.create(validated_data)
+        instance = Lesson.objects.create(
+            name=validated_data['name'],
+            language=validated_data['language'],
+            lesson_text=validated_data['lesson_text'],
+            level=validated_data['level']
+        )
+        instance.save()
+        return instance
+
+    def update(self, instance, validated_data):
+
+        if 'questions' in validated_data:
+            questions = []
+            for i in validated_data['questions']:
+                newi = json.loads(json.dumps(i))
+                q = Question.objects.get(name = newi['name'])
+                questions = questions + [q]
+
+        if 'icon' in validated_data:
+            instance.icon = validated_data['icon']
+
+        instance.questions.set(questions)
+        instance.name = validated_data.get('name', instance.name)
+        instance.language = validated_data.get('language', instance.language)
+        instance.lesson_text = validated_data.get('lesson_text', instance.lesson_text)
+        instance.level = validated_data.get('level', instance.level)
+        instance.save()
+        return instance

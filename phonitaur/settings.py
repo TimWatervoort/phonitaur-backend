@@ -85,9 +85,7 @@ WSGI_APPLICATION = 'phonitaur.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'phonitaurdb',
-        'USER': 'postgres',
-        'PASSWORD': 'Serious12!'
+        'NAME': 'phonitaurdb'
     }
 }
 
