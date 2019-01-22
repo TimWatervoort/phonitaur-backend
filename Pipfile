@@ -6,6 +6,7 @@ verify_ssl = true
 dj-database-url = "*"
 django = "*"
 djangorestframework = "*"
+djangorestframework-simplejwt = "*"
 django-cors-headers = "*"
 gunicorn = "*"
 psycopg2 = "*"
