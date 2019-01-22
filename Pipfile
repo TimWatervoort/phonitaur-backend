@@ -5,9 +5,12 @@ verify_ssl = true
 [packages]
 dj-database-url = "*"
 django = "*"
+djangorestframework = "*"
+django-cors-headers = "*"
 gunicorn = "*"
 psycopg2 = "*"
 whitenoise = "*"
+
 
 [requires]
 python_version = "3.7.0"
