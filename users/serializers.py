@@ -8,7 +8,20 @@ class LanguageSerializer(serializers.ModelSerializer):
         fields=('id', 'name', 'img', 'text_color')
 
     def create(self, validated_data):
-        return Language.objects.create(validated_data)
+        instance = Language.objects.create(
+            name=validated_data['name'],
+            img=validated_data['img'],
+            text_color=validated_data['text_color'],
+        )
+        instance.save()
+        return instance
+
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get('name', instance.name)
+        instance.img = validated_data.get('img', instance.img)
+        instance.text_color = validated_data.get('text_color', instance.text_color)
+        instance.save()
+        return instance
 
 class PhonitaurUserSerializer(serializers.ModelSerializer):
 
