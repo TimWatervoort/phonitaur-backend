@@ -11,6 +11,7 @@ urlpatterns = [
     path('users/', views.users.as_view(), name='users'),
     path('users/<int:pk>/', views.oneUser.as_view(), name='one user'),
     path('alphabets/', views.languages.as_view(), name='languages'),
+    path('language/<int:pk>', views.oneLanguage.as_view(), name='one language'),
     path('alphabets/<str:lang>', views.languageByName, name='one alphabet'),
     path('alllessons/', views.allLessons.as_view(), name='all lessons'),
     path('lessons/<str:lang>', views.lessons, name='lessons'),
