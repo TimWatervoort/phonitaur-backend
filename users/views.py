@@ -33,6 +33,12 @@ class oneLanguage(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = LanguageSerializer
     permission_classes = ()
 
+def languageByName(request, lang):
+    if request.method == 'GET':
+        lessonList = Language.objects.filter(language = lang)
+        serializer = LessonSerializer(lessonList, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
 class questions(generics.ListCreateAPIView):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
