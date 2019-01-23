@@ -44,6 +44,11 @@ class questions(generics.ListCreateAPIView):
     serializer_class = QuestionSerializer
     permission_classes = ()
 
+class oneQuestion(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Question.objects.all()
+    serializer_class = QuestionSerializer
+    permission_classes = ()
+
 class allLessons(generics.ListCreateAPIView):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
