@@ -14,7 +14,7 @@ urlpatterns = [
     path('alphabets/<str:lang>', views.languageByName, name='one alphabet'),
     path('alllessons/', views.allLessons.as_view(), name='all lessons'),
     path('lessons/<str:lang>', views.lessons, name='lessons'),
-    path('lesson/<int:lesson_id>', views.lesson, name='lesson'),
+    path('lesson/<int:lesson_id>', views.oneLesson.as_view(), name='lesson'),
     path('questions/', views.questions.as_view(), name='questions'),
     path('api-auth/', include('rest_framework.urls')),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),

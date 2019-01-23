@@ -55,8 +55,7 @@ def lessons(request, lang):
         serializer = LessonSerializer(lessonList, many=True)
         return JsonResponse(serializer.data, safe=False)
 
-def lesson(request, lesson_id):
-    if request.method == 'GET':
-        lesson = Lesson.objects.filter(id = lesson_id)
-        serializer = LessonSerializer(lesson, many=True)
-        return JsonResponse(serializer.data, safe=False)
+class oneLesson(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Lesson.objects.all()
+    serializer_class = LessonSerializer
+    permission_classes = ()
