@@ -36,7 +36,7 @@ class oneLanguage(generics.RetrieveUpdateDestroyAPIView):
 def languageByName(request, lang):
     if request.method == 'GET':
         lessonList = Language.objects.filter(name = lang)
-        serializer = LessonSerializer(lessonList, many=True)
+        serializer = LanguageSerializer(lessonList, many=True)
         return JsonResponse(serializer.data, safe=False)
 
 class questions(generics.ListCreateAPIView):
