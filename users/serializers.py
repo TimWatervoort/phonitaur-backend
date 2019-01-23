@@ -74,7 +74,7 @@ class QuestionSerializer(serializers.ModelSerializer):
         fields=('id', 'name', 'question_text', 'answer')
 
     def create(self, validated_data):
-        instance = Lesson.objects.create(
+        instance = Question.objects.create(
             name=validated_data['name'],
             question_text=validated_data['question_text'],
             answer=validated_data['answer'],
