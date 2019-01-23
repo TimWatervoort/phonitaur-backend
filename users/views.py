@@ -38,6 +38,11 @@ class questions(generics.ListCreateAPIView):
     serializer_class = QuestionSerializer
     permission_classes = ()
 
+class allLessons(generics.ListCreateAPIView):
+    queryset = Lesson.objects.all()
+    serializer_class = LessonSerializer
+    permission_classes = ()
+
 def lessons(request, lang):
     if request.method == 'GET':
         lessonList = Lesson.objects.filter(language = lang)

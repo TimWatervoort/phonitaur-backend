@@ -12,6 +12,7 @@ urlpatterns = [
     path('users/<int:pk>/', views.oneUser.as_view(), name='one user'),
     path('alphabets/', views.languages.as_view(), name='languages'),
     path('alphabets/<str:lang>', views.oneLanguage.as_view(), name='one alphabet'),
+    path('alllessons/', views.allLessons.as_view(), name='all lessons'),
     path('lessons/<str:lang>', views.lessons, name='lessons'),
     path('lesson/<int:lesson_id>', views.lesson, name='lesson'),
     path('questions/', views.questions.as_view(), name='questions'),
