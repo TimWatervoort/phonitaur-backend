@@ -10,14 +10,6 @@ class Language(models.Model):
     def __str__(self):
         return self.name
 
-class PhonitaurUser(AbstractUser):
-    mother_alphabet = models.CharField(max_length = 20)
-    img = models.CharField(max_length = 255, default=None, blank=True, null=True)
-    languages = models.ManyToManyField(Language)
-
-    def __str__(self):
-        return self.username
-
 class Question(models.Model):
     question_text = models.CharField(max_length = 255)
     answer = models.CharField(max_length = 255)
@@ -36,3 +28,13 @@ class Lesson(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class PhonitaurUser(AbstractUser):
+    mother_alphabet = models.CharField(max_length = 20)
+    img = models.CharField(max_length = 255, default=None, blank=True, null=True)
+    languages = models.ManyToManyField(Language)
+    lessons = models.ManyToManyField(Lesson)
+
+    def __str__(self):
+        return self.username

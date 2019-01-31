@@ -23,50 +23,7 @@ class LanguageSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
-class PhonitaurUserSerializer(serializers.ModelSerializer):
 
-    languages=LanguageSerializer(many=True, required=False, read_only=False)
-
-    class Meta:
-        model = PhonitaurUser
-        fields=('id', 'username', 'password', 'email', 'mother_alphabet', 'img', 'languages')
-        extra_kwargs = {
-            'password': {'write_only': True},
-            'email': {'write_only': True},
-            'img': {'required': False}
-        }
-
-
-    def create(self, validated_data):
-        instance = PhonitaurUser.objects.create(
-            username=validated_data['username'],
-            password=validated_data['password'],
-            email=validated_data['email'],
-            mother_alphabet=validated_data['mother_alphabet']
-        )
-        instance.set_password(validated_data['password'].strip())
-        instance.save()
-        return instance
-
-    def update(self, instance, validated_data):
-
-        if 'languages' in validated_data:
-            languages = []
-            for i in validated_data['languages']:
-                newi = json.loads(json.dumps(i))
-                lang = Language.objects.get(name = newi['name'])
-                languages = languages + [lang]
-
-        if 'img' in validated_data:
-            instance.img = validated_data['img']
-
-        instance.languages.set(languages)
-        instance.username = validated_data.get('username', instance.username)
-        instance.email = validated_data.get('email', instance.email)
-        instance.mother_alphabet = validated_data.get('mother_alphabet', instance.mother_alphabet)
-        instance.password = validated_data.get('password', instance.password)
-        instance.save()
-        return instance
 
 class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
@@ -124,5 +81,62 @@ class LessonSerializer(serializers.ModelSerializer):
         instance.language = validated_data.get('language', instance.language)
         instance.lesson_text = validated_data.get('lesson_text', instance.lesson_text)
         instance.level = validated_data.get('level', instance.level)
+        instance.save()
+        return instance
+
+class PhonitaurUserSerializer(serializers.ModelSerializer):
+
+    languages=LanguageSerializer(many=True, required=False, read_only=False)
+    lessons=LessonSerializer(many=True, required=False, read_only=False)
+
+    class Meta:
+        model = PhonitaurUser
+        fields=('id', 'username', 'password', 'email', 'mother_alphabet', 'img', 'languages', 'lessons')
+        extra_kwargs = {
+            'password': {'write_only': True},
+            'email': {'write_only': True},
+            'img': {'required': False}
+        }
+
+
+    def create(self, validated_data):
+        instance = PhonitaurUser.objects.create(
+            username=validated_data['username'],
+            password=validated_data['password'],
+            email=validated_data['email'],
+            mother_alphabet=validated_data['mother_alphabet']
+        )
+        instance.set_password(validated_data['password'].strip())
+        instance.save()
+        return instance
+
+    def update(self, instance, validated_data):
+
+        languages=instance.languages
+        lessons=instance.lessons
+
+        if 'languages' in validated_data:
+            languages = []
+            for i in validated_data['languages']:
+                newi = json.loads(json.dumps(i))
+                lang = Language.objects.get(name = newi['name'])
+                languages = languages + [lang]
+
+        if 'lessons' in validated_data:
+            lessons = []
+            for i in validated_data['lessons']:
+                newi = json.loads(json.dumps(i))
+                less = Lesson.objects.get(name = newi['name'])
+                lessons = lessons + [less]
+
+        if 'img' in validated_data:
+            instance.img = validated_data['img']
+
+        instance.languages.set(languages)
+        instance.lessons.set(lessons)
+        instance.username = validated_data.get('username', instance.username)
+        instance.email = validated_data.get('email', instance.email)
+        instance.mother_alphabet = validated_data.get('mother_alphabet', instance.mother_alphabet)
+        instance.password = validated_data.get('password', instance.password)
         instance.save()
         return instance
