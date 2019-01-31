@@ -126,7 +126,7 @@ class PhonitaurUserSerializer(serializers.ModelSerializer):
             lessons = []
             for i in validated_data['lessons']:
                 newi = json.loads(json.dumps(i))
-                less = Lesson.objects.get(name = newi['name'])
+                less = Lesson.objects.get(id = newi['id'])
                 lessons = lessons + [less]
 
         if 'img' in validated_data:
