@@ -126,6 +126,7 @@ class PhonitaurUserSerializer(serializers.ModelSerializer):
             lessons = []
             for i in validated_data['lessons']:
                 newi = json.loads(json.dumps(i))
+                print(newi)
                 less = Lesson.objects.get(pk = newi['id'])
                 lessons = lessons + [less]
 
