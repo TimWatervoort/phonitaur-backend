@@ -33,6 +33,7 @@ class oneLanguage(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = LanguageSerializer
     permission_classes = ()
 
+# get a language by its name instead of its pk
 def languageByName(request, lang):
     if request.method == 'GET':
         lessonList = Language.objects.filter(name = lang)
@@ -54,6 +55,7 @@ class allLessons(generics.ListCreateAPIView):
     serializer_class = LessonSerializer
     permission_classes = ()
 
+# get lessons grouped by language name
 def lessons(request, lang):
     if request.method == 'GET':
         lessonList = Lesson.objects.filter(language = lang)

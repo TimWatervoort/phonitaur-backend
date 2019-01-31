@@ -66,6 +66,7 @@ class LessonSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
 
+        # if adding questions to the lesson, look them up in the database by name
         if 'questions' in validated_data:
             questions = []
             for i in validated_data['questions']:
@@ -115,6 +116,7 @@ class PhonitaurUserSerializer(serializers.ModelSerializer):
         languages=instance.languages
         lessons=instance.lessons
 
+        # if adding a course, look it up
         if 'languages' in validated_data:
             languages = []
             for i in validated_data['languages']:
@@ -122,6 +124,7 @@ class PhonitaurUserSerializer(serializers.ModelSerializer):
                 lang = Language.objects.get(name = newi['name'])
                 languages = languages + [lang]
 
+        # if completing a lesson, look it up
         if 'lessons' in validated_data:
             lessons = []
             for i in validated_data['lessons']:
